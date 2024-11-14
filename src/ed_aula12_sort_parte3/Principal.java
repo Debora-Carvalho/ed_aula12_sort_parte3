@@ -6,7 +6,8 @@ public class Principal {
 
 	public static void main(String[] args) {
 		int[] valores = {5, 3, 2, 1, 6, 7, 3};
-		
+		//int[] valores = {1,2,3,4,5,6,7};
+
 		mergeSort(valores);
 		
 		System.out.println(Arrays.toString(valores));
@@ -15,46 +16,40 @@ public class Principal {
 
 	private static void mergeSort(int[] valores) {
 		int length = valores.length;
-		
-		//caso base do método recursivo
-		if(length == 1) {
-			return;     //encerrar método void com o return
-		}
-		
+		//caso base
+		if(length == 1)return;
 		int[] left = new int[length/2];
 		int[] right = new int[length - length/2];
-		
-		//recurso oferecido pelo proprio Java para copiar elementos de um array para outro
 		System.arraycopy(valores, 0, left, 0, left.length);
-		System.arraycopy(valores, length/2, right, 0, right.length);
-		
-		imprimeValores(valores, left, right);
-		
+		System.arraycopy(valores,length/2 , right, 0, right.length);		
 		//chamada recursiva
 		mergeSort(left);
 		mergeSort(right);
-		
-		//método para concatenar em um único vetor
-		merge(valores, left, right);
+		merge(left, right, valores);
 	}
 
-	private static void merge(int[] valores, int[] left, int[] right) {
-		int indexL = 0, indexR = 0, indexV = 0;
-		
-		while (indexL < left.length && indexR < right.length) {
-			if (left[indexL] < right[indexR]) {
-				valores[indexV++] = left[indexL++];
+	private static void merge(int[] left, int[] right, int[] valores) {
+		int il = 0, ir = 0, iv = 0;
+		while(il < left.length && ir < right.length) {
+			if(left[il] < right[ir]) {
+				valores[iv++] = left[il++];
 			}
 			else {
-				valores[indexV] = right[indexR++];
+				valores[iv++] = right[ir++];
 			}
+		}
+		while(il < left.length) {
+			valores[iv++] = left[il++];
+		}
+		
+		while(ir < right.length) {
+			valores[iv++] = right[ir++];
 		}
 	}
 
-	private static void imprimeValores(int[] valores, int[] left, int[]right) {
-		System.out.println(Arrays.toString(valores));	
-		System.out.println(Arrays.toString(left));	
+	private static void imprimeValores(int[] valores, int[] left,int[] right) {
+		System.out.println(Arrays.toString(valores));
+		System.out.println(Arrays.toString(left));
 		System.out.println(Arrays.toString(right));	
 	}
-
 }
